@@ -1,63 +1,65 @@
 const Engine = Matter.Engine;
-const World= Matter.World;
+const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
 
-var engine, world;
-var backgroundImg,platform;
-var bird, slingShot;
 
-
-function setup(){
-    var canvas = createCanvas(400,400);
-    engine = Engine.create();
-    world = engine.world;
-
-    ground = new Ground(600,height,1200,20);
-
-    bob = new Bob(180,300);
-    console.log(bob);
+function setup() {
+	createCanvas(800, 800);
+  engine = Engine.create();
+	world = engine.world;
+  Engine.run(engine);
+  
+  bobDiaMeter =40;
+  stand = new Roof(400, 50, 700, 20);
+  bob1 = new Bob(200, 575, bobDiaMeter);
+  rope1 = new Rope(bob1.body, stand.body, -4*bobDiaMeter,0);
+  
     
-    string = new String(bob.body,{x : 180,y : 50});
+  bob2 = new Bob(300, 575, bobDiaMeter);
+  rope2 = new Rope(bob2.body, stand.body, -2*bobDiaMeter,0);
+
+  bob3 = new Bob(400, 575, bobDiaMeter);
+  rope3 = new Rope(bob3.body, stand.body, 0,0);
+
+  bob4 = new Bob(500, 575, bobDiaMeter);
+  rope4 = new Rope(bob4.body, stand.body, 2*bobDiaMeter,0);
 
   
-    //console.log(string);
+  bob5 = new Bob(600, 575, bobDiaMeter);
+  rope5 = new Rope(bob5.body, stand.body, 4*bobDiaMeter,0);
+  
+  
 }
+function draw() {
+  background(180);
 
-function draw(){
-    background("white");
-    text(mouseX + ' , '+mouseY, mouseX, mouseY);
-    Engine.update(engine);
-    //strokeWeight(4);
-    
-    text("Press 'SPACE' to swing the pendulum.", 80,330);
-    text("Press 'ENTER' to stop the pendulum.", 80,350);
-
-    ground.display();
  
-    rect (177,50,5,5);
-    bob.display();
-    string.display();    
+
+  rope1.display();
+  bob1.display();
+  
+  rope2.display();
+  bob2.display();
+ 
+  rope3.display();
+  bob3.display();
+  
+  rope4.display();
+  bob4.display();
+ 
+  rope5.display();
+  bob5.display();
+  
+  stand.display();
+ 
 }
 
 function keyPressed(){
-    //start swinging the pendulum when SPACE is pressed
-    if(keyCode === 32 && bob.body.speed < 1){
-        Matter.Body.setPosition(bob.body, {x:100, y:100});
-        Matter.Body.setStatic(bob.body, false);
-
-    }
-
-    //stop the pendulum from oscillating when ENTER is pressed
-    if(keyCode === 13 ){
-        Matter.Body.setStatic(bob.body, true);
-        Matter.Body.setPosition(bob.body, {x:180, y:280});
-
-    }
+  if(keyCode === UP_ARROW){
+    Matter.Body.applyForce(bob1.body, bob1.body.position, {x: -105, y: -45});
+  }
 }
-function stop(){
-    if(keyCode === 13 && bob.body.speed > 1){
-        bob.body.position.x = 100;
-        bob.body.position.y = 100;
-    }
-}
+
+
+
